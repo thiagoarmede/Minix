@@ -1,7 +1,7 @@
-function observable(target, name, descriptor) {
-  let obj = descriptor ? descriptor.initializer.call(this) : target[name];
+function observable(target: any, name: string): any {
+  let obj = target[name];
 
-  function recursiveObj(obj) {
+  function recursiveObj(obj: object) {
     Object.keys(obj).forEach(item => {
       Object.defineProperty(obj, item, observable(obj, item));
     });
@@ -10,15 +10,16 @@ function observable(target, name, descriptor) {
   if (typeof obj === 'object') {
     recursiveObj(obj);
   }
+
   let observableObj = new Observable(obj);
 
   return {
     enumerable: true,
     configurable: true,
-    get: function() {
+    get() {
       return observableObj.get();
     },
-    set: function(value) {
+    set(value: any) {
       if (typeof value === 'object') {
         recursiveObj(value);
       }
@@ -27,18 +28,20 @@ function observable(target, name, descriptor) {
   };
 }
 
-let idCount = 0;
-
 class Observable {
-  constructor(value) {
-    this.obId = 'observable-' + ++idCount;
+  value: any;
+  obId: string;
+  static idCount = 0;
+
+  constructor(value: any) {
+    this.obId = 'observable-' + ++Observable.idCount;
     this.value = value;
   }
   get() {
     dependenceManager.collect(this.obId);
     return this.value;
   }
-  set(value) {
+  set(value: any) {
     this.value = value;
     dependenceManager.trigger(this.obId);
   }
@@ -59,7 +62,7 @@ let dependenceManager = {
     this.store[obId].watchers = this.store[obId].watchers || [];
     this.store[obId].watchers.push(this.nowEventFunc);
   },
-  trigger(obId) {
+  trigger(obId: string) {
     const obj = this.store[obId];
     if (obj && obj.watchers) {
       obj.watchers.forEach(func => {
@@ -77,20 +80,20 @@ let dependenceManager = {
   },
 };
 
-function computed(target, name, descriptor) {
+function computed(target: any, name: string) {
   let computed = new Computed(target, name);
-  
+
   return {
     enumerable: true,
     configurable: true,
-    get: function() {
+    get() {
       return computed.get();
     },
   };
 }
 
 class Computed {
-  constructor(target, name) {
+  constructor(target: any, name: string) {
     this.value = undefined;
     this.cb = target[name].bind(target);
     this.target = target;
@@ -112,32 +115,6 @@ class Computed {
   }
 }
 
-function watch(target, name, descriptor) {
-  let obj = descriptor.initializer.call(this);
-
-  Object.keys(obj).forEach(item => {
-    let cb = obj[item];
-
-    let Watch = new WatchObj(cb, target, item);
-  });
-
-  return descriptor;
-}
-
-class WatchObj {
-  constructor(cb, target, key) {
-    this.cb = cb;
-    this.target = target;
-    this.key = key;
-    this.collectDependence();
-  }
-  collectDependence() {
-    dependenceManager.start(this.target, this.cb.bind(this.target));
-    0, this.target[this.key];
-    dependenceManager.over();
-  }
-}
-
 class Store {
   @observable
   a = 1;
@@ -149,14 +126,6 @@ class Store {
   c() {
     return this.a + this.b;
   }
-
-  @watch
-  watch = {
-    b() {
-      console.log(111);
-      console.log(this.a);
-    },
-  };
 
   constructor() {
     console.log(this.a);
@@ -172,4 +141,4 @@ class Store {
   }
 }
 
-new b();
+new Store();
