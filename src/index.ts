@@ -48,12 +48,12 @@ let dependenceManager = {
   nowEventFunc: null,
   nowTarget: null,
   store: {},
-  collect(obId) {
+  collect(obId: string) {
     if (this.nowEventFunc) {
       this.addNowEventFunc(obId);
     }
   },
-  addNowEventFunc(obId) {
+  addNowEventFunc(obId: string) {
     this.store[obId] = this.store[obId] || {};
     this.store[obId].target = this.nowTarget;
     this.store[obId].watchers = this.store[obId].watchers || [];
@@ -79,6 +79,7 @@ let dependenceManager = {
 
 function computed(target, name, descriptor) {
   let computed = new Computed(target, name);
+  
   return {
     enumerable: true,
     configurable: true,
