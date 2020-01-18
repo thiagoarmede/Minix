@@ -1,3 +1,5 @@
+import { dependenceManager } from 'depManager';
+
 export function computed(target: any, name: string) {
   let computed = new Computed(target, name);
 
