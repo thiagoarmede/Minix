@@ -2,11 +2,10 @@ interface DependecyManagerStore {
   [key: string]: any;
 }
 
-export let dependenceManager = {
+export const dependencyManager = {
   nowEventFunc: null,
   nowTarget: null,
-  store: <DependecyManagerStore>{},
-
+  store: <DependecyManagerStore>{}, // Object which stores all Minix data.
   collect(obId: string) {
     if (this.nowEventFunc) {
       this.addNowEventFunc(obId);
@@ -20,6 +19,7 @@ export let dependenceManager = {
   },
   trigger(obId: string) {
     const obj = this.store[obId];
+
     if (obj && obj.watchers) {
       obj.watchers.forEach((func: any) => {
         func.call(obj.target || this);

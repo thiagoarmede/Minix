@@ -1,4 +1,4 @@
-import { dependenceManager } from 'depManager';
+import { dependencyManager } from 'depManager';
 
 export function observable(target: any, name: string): any {
   let obj = target[name];
@@ -40,11 +40,11 @@ class Observable {
     this.value = value;
   }
   get() {
-    dependenceManager.collect(this.obId);
+    dependencyManager.collect(this.obId);
     return this.value;
   }
   set(value: any) {
     this.value = value;
-    dependenceManager.trigger(this.obId);
+    dependencyManager.trigger(this.obId);
   }
 }

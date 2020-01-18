@@ -1,4 +1,4 @@
-import { dependenceManager } from 'depManager';
+import { dependencyManager } from 'depManager';
 
 export function computed(target: any, name: string) {
   let computed = new Computed(target, name);
@@ -26,9 +26,9 @@ class Computed {
   }
 
   collectDependence() {
-    dependenceManager.start(this.target, this.updateValue.bind(this));
+    dependencyManager.start(this.target, this.updateValue.bind(this));
     this.updateValue();
-    dependenceManager.over();
+    dependencyManager.over();
   }
 
   updateValue() {
