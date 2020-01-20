@@ -3,35 +3,38 @@ interface DependecyManagerStore {
 }
 
 export const dependencyManager = {
-  nowEventFunc: null,
-  nowTarget: null,
-  store: <DependecyManagerStore>{}, // Object which contains all Minix observables.
+  runningFunc: null,
+  runningTarget: null,
+  /**
+   * Object which contains all Minix observable data.
+   */
+  store: <DependecyManagerStore>{},
   collect(obId: string) {
-    if (this.nowEventFunc) {
+    if (this.runningFunc) {
       this.addNowEventFunc(obId);
     }
   },
   addNowEventFunc(obId: string) {
     this.store[obId] = this.store[obId] || {};
-    this.store[obId].target = this.nowTarget;
+    this.store[obId].target = this.runningTarget;
     this.store[obId].watchers = this.store[obId].watchers || [];
-    this.store[obId].watchers.push(this.nowEventFunc);
+    this.store[obId].watchers.push(this.runningFunc);
   },
   trigger(obId: string) {
     const obj = this.store[obId];
 
-    if (obj?.watchers) {
+    if (obj && obj.watchers) {
       for (const func of obj.watchers) {
         func.call(obj.target || this);
       }
     }
   },
-  start(nowTarget: any, nowEventFunc: any) {
-    this.nowTarget = nowTarget;
-    this.nowEventFunc = nowEventFunc;
+  start(nowTarget: any = null, nowEventFunc: any) {
+    this.runningTarget = nowTarget;
+    this.runningFunc = nowEventFunc;
   },
   over() {
-    this.nowTarget = null;
-    this.nowEventFunc = null;
+    this.runningTarget = null;
+    this.runningFunc = null;
   },
 };
