@@ -1,7 +1,7 @@
-import { dependencyManager } from 'depManager';
+import { dependencyManager } from './depManager';
 
 export function computed(target: any, name: string) {
-  let computed = new Computed(target, name);
+  const computed = new Computed(target, name);
 
   return {
     enumerable: true,
@@ -21,7 +21,6 @@ class Computed {
     this.value = undefined;
     this.callback = target[name].bind(target); // Representa a
     this.target = target;
-    console.log(this.target);
     this.collectDependence();
   }
 
