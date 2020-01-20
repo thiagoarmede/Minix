@@ -14,11 +14,16 @@ export const dependencyManager = {
       this.addNowEventFunc(obId);
     }
   },
-  addNowEventFunc(obId: string) {
-    this.store[obId] = this.store[obId] || {};
-    this.store[obId].target = this.runningTarget;
-    this.store[obId].watchers = this.store[obId].watchers || [];
-    this.store[obId].watchers.push(this.runningFunc);
+  addNowEventFunc(observableId: string) {
+    /**
+     * The observable value can have been already observed.
+     */
+    if (!this.store[observableId]) {
+      this.store[observableId] = {};
+    }
+
+    this.store[observableId].target = this.runningTarget;
+    this.store[observableId].watchers.push(this.runningFunc);
   },
   trigger(obId: string) {
     const obj = this.store[obId];
