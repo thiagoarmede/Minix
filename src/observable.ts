@@ -1,16 +1,10 @@
-import { dependencyManager } from 'depManager';
+import { dependencyManager } from './depManager';
 
 export function observable(target: any, name: string): any {
   let obj = target[name];
 
-  function recursiveObj(obj: object) {
-    Object.keys(obj).forEach(item => {
-      Object.defineProperty(obj, item, observable(obj, item));
-    });
-  }
-
   if (typeof obj === 'object') {
-    recursiveObj(obj);
+    applyObservableRecursively(obj);
   }
 
   const observableObj = new Observable(obj);
@@ -23,27 +17,42 @@ export function observable(target: any, name: string): any {
     },
     set(value: any) {
       if (typeof value === 'object') {
-        recursiveObj(value);
+        applyObservableRecursively(value);
       }
       observableObj.set(value);
     },
   };
 }
 
-class Observable {
-  value: any;
+function applyObservableRecursively(obj: object) {
+  /**
+   * Handling array item adding or removing.
+   */
+  if (Array.isArray(obj)) {
+    observable(obj, 'length');
+  }
+
+  Object.keys(obj).forEach(item => {
+    Object.defineProperty(obj, item, observable(obj, item));
+  });
+}
+
+class Observable<T extends any> {
+  value: T;
   obId: string;
   static idCount = 0;
 
-  constructor(value: any) {
+  constructor(value: T) {
     this.obId = 'observable-' + ++Observable.idCount;
     this.value = value;
   }
+
   get() {
     dependencyManager.collect(this.obId);
     return this.value;
   }
-  set(value: any) {
+
+  set(value: T) {
     this.value = value;
     dependencyManager.trigger(this.obId);
   }
