@@ -2,7 +2,7 @@
   "include": ["src", "types", "test"],
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "CommonJS",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
     "declaration": true,
