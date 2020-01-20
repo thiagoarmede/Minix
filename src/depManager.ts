@@ -9,12 +9,12 @@ export const dependencyManager = {
    * Object which contains all Minix observable data.
    */
   store: <DependecyManagerStore>{},
-  collect(obId: string) {
+  collect(observableId: string) {
     if (this.runningFunc) {
-      this.addNowEventFunc(obId);
+      this.addRunningFunc(observableId);
     }
   },
-  addNowEventFunc(observableId: string) {
+  addRunningFunc(observableId: string) {
     /**
      * The observable value can have been already observed.
      */

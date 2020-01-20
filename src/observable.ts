@@ -40,11 +40,17 @@ function applyObservableRecursively(obj: object) {
 class Observable<T extends any> {
   value: T;
   obId: string;
+  watchers: Function[];
+
+  /**
+   * Id counting to guarantee IDs uniqueness.
+   */
   static idCount = 0;
 
   constructor(value: T) {
     this.obId = 'observable-' + ++Observable.idCount;
     this.value = value;
+    this.watchers = [];
   }
 
   get() {
