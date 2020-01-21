@@ -1,27 +1,39 @@
-# TSDX Bootstrap
+<h1 align="center">Welcome to Minix 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+> Reactive engine heavily inspired by [MobX](https://github.com/mobxjs/mobx) :).
 
-## Local Development
+## Install
 
-Below is a list of commands you will probably find useful.
+```sh
+npm install
+```
 
-### `npm start` or `yarn start`
+## Usage
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+```sh
+npm run start
+```
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+## Run tests
 
-Your library will be rebuilt if you make edits.
+```sh
+npm run test
+```
 
-### `npm run build` or `yarn build`
+## Author
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+👤 **Thiago Armede**
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
 
-### `npm test` or `yarn test`
+## Show your support
 
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

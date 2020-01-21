@@ -14,6 +14,8 @@ interface ReactionsMap {
 class DataMapper {
   values: ObservableData = {};
   reactions: ReactionsMap = {};
+
+  runningReaction: Function | null = null;
 }
 
 export const dataMapper = new DataMapper();

@@ -11,6 +11,7 @@ class Reaction {
 
   constructor(trackedFn: Function) {
     this.id = `reaction-${++Reaction.reactionCount}`;
+
     this.tracked = trackedFn;
     dependencyManager.start(null, trackedFn);
     this.tracked.call(trackedFn);
